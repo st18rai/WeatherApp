@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.st18apps.weatherapp.R;
 import com.st18apps.weatherapp.model.WeatherData;
 
@@ -35,6 +36,16 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
         notifyDataSetChanged();
     }
 
+    public void addItem(WeatherData weatherData) {
+        data.add(weatherData);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(int position){
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @NonNull
     @Override
     public CitiesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,7 +66,10 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
         WeatherData weatherData = data.get(position);
 
         holder.city.setText(weatherData.getName());
-        holder.temperature.setText(String.valueOf(weatherData.getMain().getTemp()));
+        holder.temperature.setText(String.format("%s °C", weatherData.getMain().getTemp()));
+
+        Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getWeather().get(0).getIcon()))
+                .into(holder.imageWeather);
 
     }
 
@@ -66,6 +80,10 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
 
     public interface ItemClickListener {
         void onItemClick(int position);
+    }
+
+    private String makeImageUrl(String weatherIcon) {
+        return "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
     }
 
     static class CitiesHolder extends RecyclerView.ViewHolder {

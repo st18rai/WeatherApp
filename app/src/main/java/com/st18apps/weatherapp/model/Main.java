@@ -4,30 +4,30 @@ import com.google.gson.annotations.SerializedName;
 
 public class Main {
     private double temp;
-    private int pressure;
-    private int humidity;
+    private double pressure;
+    private double humidity;
     @SerializedName("temp_min")
-    private int tempMin;
+    private double tempMin;
     @SerializedName("temp_max")
-    private int tempMax;
+    private double tempMax;
 
     public double getTemp() {
         return temp;
     }
 
-    public int getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public int getTempMin() {
+    public double getTempMin() {
         return tempMin;
     }
 
-    public int getTempMax() {
+    public double getTempMax() {
         return tempMax;
     }
 }

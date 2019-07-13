@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.st18apps.weatherapp.model.WeatherData;
 import com.st18apps.weatherapp.network.ApiClient;
-import com.st18apps.weatherapp.network.responses.BaseListResponse;
 import com.st18apps.weatherapp.utils.RxUtil;
 
 import java.util.List;
@@ -37,21 +36,27 @@ public class Repository {
     public LiveData<List<WeatherData>> getCitiesWeather() {
         return citiesWeather;
     }
+
     private void setCitiesWeather(List<WeatherData> dataList) {
         citiesWeather.setValue(dataList);
     }
-
 
     public void loadCityWeather(String city) {
 
         RxUtil.networkConsumer(ApiClient.getApiInterface().getCityWeather(city,
                 UNITS, LANG, ApiClient.APP_ID), weatherData -> {
 
-                    if (!weatherData.isError()) {
-                        setCityWeather(weatherData);
-                    }
+            if (!weatherData.isError()) {
+                setCityWeather(weatherData);
+            }
 
-                }, Throwable::printStackTrace);
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                setCityWeather(null);
+                throwable.printStackTrace();
+            }
+        });
     }
 
     public void loadCitiesWeather(String citiesId) {
@@ -59,10 +64,10 @@ public class Repository {
         RxUtil.networkConsumer(ApiClient.getApiInterface().getCitiesWeather(citiesId,
                 UNITS, LANG, ApiClient.APP_ID), baseListResponse -> {
 
-                    if (!baseListResponse.isError()) {
-                        setCitiesWeather(baseListResponse.getWeatherDataList());
-                    }
+            if (!baseListResponse.isError()) {
+                setCitiesWeather(baseListResponse.getWeatherDataList());
+            }
 
-                }, Throwable::printStackTrace);
+        }, Throwable::printStackTrace);
     }
 }
