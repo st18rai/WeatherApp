@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.st18apps.weatherapp.model.WeatherData;
+import com.st18apps.weatherapp.network.responses.DetailWeatherResponse;
 import com.st18apps.weatherapp.repository.Repository;
 
 import java.util.List;
@@ -29,6 +30,11 @@ public class ViewModel extends AndroidViewModel {
     public LiveData<List<WeatherData>> getCitiesWeather(String ids) {
         repository.loadCitiesWeather(ids);
         return repository.getCitiesWeather();
+    }
+
+    public LiveData<DetailWeatherResponse> getDetailCityWeather(String id) {
+        repository.loadDetailCityWeather(id);
+        return repository.getDetailCityWeather();
     }
 
 }

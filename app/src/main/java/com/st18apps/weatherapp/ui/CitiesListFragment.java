@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +19,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.st18apps.weatherapp.R;
 import com.st18apps.weatherapp.adapters.CitiesRecyclerAdapter;
+import com.st18apps.weatherapp.interfaces.Constants;
 import com.st18apps.weatherapp.model.WeatherData;
+import com.st18apps.weatherapp.utils.FragmentUtil;
 import com.st18apps.weatherapp.viewmodels.ViewModel;
 
 import java.util.List;
@@ -65,7 +66,6 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
     }
 
     private void setRecycler() {
-        // check context
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false);
         recyclerViewCities.setLayoutManager(linearLayoutManager);
@@ -153,6 +153,10 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
 
     @Override
     public void onItemClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.CITY_ID, adapter.getData().get(position).getId());
 
+        FragmentUtil.replaceFragment(getFragmentManager(), new DetailCityFragment(),
+                true, bundle);
     }
 }

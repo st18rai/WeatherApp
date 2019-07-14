@@ -1,6 +1,7 @@
 package com.st18apps.weatherapp.ui;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,4 +19,23 @@ public class MainActivity extends AppCompatActivity {
                 false);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setBackButtonEnabled(boolean enabled) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
+            getSupportActionBar().setHomeButtonEnabled(enabled);
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.st18apps.weatherapp.model.WeatherData;
 
 import java.util.List;
 
-public class BaseListResponse {
+public class WeatherListResponse {
     @SerializedName("cnt")
     private int count;
     @SerializedName("list")

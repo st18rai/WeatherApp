@@ -7,17 +7,17 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.st18apps.weatherapp.model.WeatherData;
 import com.st18apps.weatherapp.network.ApiClient;
+import com.st18apps.weatherapp.network.responses.DetailWeatherResponse;
 import com.st18apps.weatherapp.utils.RxUtil;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 public class Repository {
     private final String UNITS = "metric";
     private final String LANG = "ru";
 
     private final MutableLiveData<WeatherData> cityWeather = new MutableLiveData<>();
+    private final MutableLiveData<DetailWeatherResponse> detailCityWeather = new MutableLiveData<>();
     private final MutableLiveData<List<WeatherData>> citiesWeather = new MutableLiveData<>();
 
     public Repository(Application application) {
@@ -27,7 +27,6 @@ public class Repository {
     public LiveData<WeatherData> getCityWeather() {
         return cityWeather;
     }
-
     private void setCityWeather(WeatherData data) {
         cityWeather.setValue(data);
     }
@@ -36,9 +35,16 @@ public class Repository {
     public LiveData<List<WeatherData>> getCitiesWeather() {
         return citiesWeather;
     }
-
     private void setCitiesWeather(List<WeatherData> dataList) {
         citiesWeather.setValue(dataList);
+    }
+
+    // detail weather
+    public LiveData<DetailWeatherResponse> getDetailCityWeather() {
+        return detailCityWeather;
+    }
+    private void setDetailCityWeather(DetailWeatherResponse data) {
+        detailCityWeather.setValue(data);
     }
 
     public void loadCityWeather(String city) {
@@ -50,12 +56,9 @@ public class Repository {
                 setCityWeather(weatherData);
             }
 
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                setCityWeather(null);
-                throwable.printStackTrace();
-            }
+        }, throwable -> {
+            setCityWeather(null);
+            throwable.printStackTrace();
         });
     }
 
@@ -69,5 +72,18 @@ public class Repository {
             }
 
         }, Throwable::printStackTrace);
+    }
+
+    public void loadDetailCityWeather(String cityId) {
+
+        RxUtil.networkConsumer(ApiClient.getApiInterface().getDetailWeather(cityId,
+                UNITS, LANG, ApiClient.APP_ID), detailWeatherResponse -> {
+
+            if (!detailWeatherResponse.isError()) {
+                setDetailCityWeather(detailWeatherResponse);
+            }
+
+        }, Throwable::printStackTrace);
+
     }
 }

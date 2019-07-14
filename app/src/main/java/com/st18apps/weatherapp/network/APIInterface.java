@@ -1,7 +1,8 @@
 package com.st18apps.weatherapp.network;
 
 import com.st18apps.weatherapp.model.WeatherData;
-import com.st18apps.weatherapp.network.responses.BaseListResponse;
+import com.st18apps.weatherapp.network.responses.DetailWeatherResponse;
+import com.st18apps.weatherapp.network.responses.WeatherListResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -16,9 +17,15 @@ public interface APIInterface {
                                            @Query("appid") String appID);
 
     @GET("group")
-    Observable<BaseListResponse> getCitiesWeather(@Query("id") String ids,
-                                                  @Query("units") String units,
-                                                  @Query("lang") String lang,
-                                                  @Query("appid") String appID);
+    Observable<WeatherListResponse> getCitiesWeather(@Query("id") String ids,
+                                                     @Query("units") String units,
+                                                     @Query("lang") String lang,
+                                                     @Query("appid") String appID);
+
+    @GET("forecast")
+    Observable<DetailWeatherResponse> getDetailWeather(@Query("id") String ids,
+                                                       @Query("units") String units,
+                                                       @Query("lang") String lang,
+                                                       @Query("appid") String appID);
 
 }

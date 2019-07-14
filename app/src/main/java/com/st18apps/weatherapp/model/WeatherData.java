@@ -11,6 +11,8 @@ public class WeatherData {
     private Main main;
     @SerializedName("dt")
     private int dt;
+    @SerializedName("dt_txt")
+    private String date;
     private int id;
     private String name;
     private int cod;
@@ -42,6 +44,10 @@ public class WeatherData {
 
     public int getCod() {
         return cod;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public String getMessage() {
