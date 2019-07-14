@@ -27,6 +27,11 @@ public class ViewModel extends AndroidViewModel {
         return repository.getCityWeather();
     }
 
+    public LiveData<WeatherData> getCityWeather(double lat, double lon) {
+        repository.loadCityWeather(lat, lon);
+        return repository.getCityWeather();
+    }
+
     public LiveData<List<WeatherData>> getCitiesWeather(String ids) {
         repository.loadCitiesWeather(ids);
         return repository.getCitiesWeather();

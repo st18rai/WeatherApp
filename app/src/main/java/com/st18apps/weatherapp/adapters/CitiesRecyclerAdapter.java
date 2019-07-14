@@ -36,12 +36,17 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
         notifyDataSetChanged();
     }
 
+    public void addCurrentCity(WeatherData weatherData) {
+        data.add(0, weatherData);
+        notifyDataSetChanged();
+    }
+
     public void addItem(WeatherData weatherData) {
         data.add(weatherData);
         notifyDataSetChanged();
     }
 
-    public void removeItem(int position){
+    public void removeItem(int position) {
         data.remove(position);
         notifyItemRemoved(position);
     }
@@ -62,6 +67,8 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull final CitiesHolder holder, int position) {
+
+        holder.currentCity.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
 
         WeatherData weatherData = data.get(position);
 
@@ -90,6 +97,9 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
 
         @BindView(R.id.textView_name)
         TextView city;
+
+        @BindView(R.id.textView_your_city)
+        TextView currentCity;
 
         @BindView(R.id.textView_temperature)
         TextView temperature;

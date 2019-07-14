@@ -11,10 +11,17 @@ import retrofit2.http.Query;
 public interface APIInterface {
 
     @GET("weather")
-    Observable<WeatherData> getCityWeather(@Query("q") String city,
-                                           @Query("units") String units,
-                                           @Query("lang") String lang,
-                                           @Query("appid") String appID);
+    Observable<WeatherData> getCityWeatherByName(@Query("q") String city,
+                                                 @Query("units") String units,
+                                                 @Query("lang") String lang,
+                                                 @Query("appid") String appID);
+
+    @GET("weather")
+    Observable<WeatherData> getCityWeatherByCoordinates(@Query("lat") double lat,
+                                                        @Query("lon") double lon,
+                                                        @Query("units") String units,
+                                                        @Query("lang") String lang,
+                                                        @Query("appid") String appID);
 
     @GET("group")
     Observable<WeatherListResponse> getCitiesWeather(@Query("id") String ids,

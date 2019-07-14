@@ -27,6 +27,7 @@ public class Repository {
     public LiveData<WeatherData> getCityWeather() {
         return cityWeather;
     }
+
     private void setCityWeather(WeatherData data) {
         cityWeather.setValue(data);
     }
@@ -35,6 +36,7 @@ public class Repository {
     public LiveData<List<WeatherData>> getCitiesWeather() {
         return citiesWeather;
     }
+
     private void setCitiesWeather(List<WeatherData> dataList) {
         citiesWeather.setValue(dataList);
     }
@@ -43,13 +45,29 @@ public class Repository {
     public LiveData<DetailWeatherResponse> getDetailCityWeather() {
         return detailCityWeather;
     }
+
     private void setDetailCityWeather(DetailWeatherResponse data) {
         detailCityWeather.setValue(data);
     }
 
     public void loadCityWeather(String city) {
 
-        RxUtil.networkConsumer(ApiClient.getApiInterface().getCityWeather(city,
+        RxUtil.networkConsumer(ApiClient.getApiInterface().getCityWeatherByName(city,
+                UNITS, LANG, ApiClient.APP_ID), weatherData -> {
+
+            if (!weatherData.isError()) {
+                setCityWeather(weatherData);
+            }
+
+        }, throwable -> {
+            setCityWeather(null);
+            throwable.printStackTrace();
+        });
+    }
+
+    public void loadCityWeather(double lat, double lon) {
+
+        RxUtil.networkConsumer(ApiClient.getApiInterface().getCityWeatherByCoordinates(lat, lon,
                 UNITS, LANG, ApiClient.APP_ID), weatherData -> {
 
             if (!weatherData.isError()) {

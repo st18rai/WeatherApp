@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView_name"
@@ -25,6 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView_temperature"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="City" />
 
@@ -36,9 +37,9 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@android:color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_name"
             app:layout_constraintEnd_toStartOf="@+id/imageView_weather"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView_name"
             tools:text="+22" />
 
         <ImageView
@@ -46,10 +47,22 @@
             android:layout_width="@dimen/weather_icon_size"
             android:layout_height="@dimen/weather_icon_size"
             android:layout_margin="@dimen/default_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_temperature"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView_temperature"
             app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/textView_your_city"
+            android:layout_width="0dp"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_height="wrap_content"
+            android:text="@string/your_city"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/textView_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
