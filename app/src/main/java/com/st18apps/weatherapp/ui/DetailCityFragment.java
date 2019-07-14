@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
+import static com.st18apps.weatherapp.utils.StringUtil.makeImageUrl;
+
 public class DetailCityFragment extends BaseFragment {
     @BindView(R.id.imageView_weather)
     ImageView imageViewWeather;
@@ -114,18 +116,17 @@ public class DetailCityFragment extends BaseFragment {
         textViewCity.setText(data.getCity().getName());
         textViewWeather.setText(weatherData.getWeather().get(0).getDescription());
         textViewCurrentTemperature.setText(String.format("%s °C", weatherData.getMain().getTemp()));
-        textViewTemperatureMinMax.setText(String.format("%s°/%s°", weatherData.getMain().getTempMax(), weatherData.getMain().getTempMin()));
-        textViewPressure.setText(String.format("%s %s", textViewPressure.getText(), weatherData.getMain().getPressure()));
-        textViewHumidity.setText(String.format("%s %s", textViewHumidity.getText(), weatherData.getMain().getHumidity()));
+        textViewTemperatureMinMax.setText(String.format("%s°/%s°", weatherData.getMain().getTempMax(),
+                weatherData.getMain().getTempMin()));
+        textViewPressure.setText(String.format("%s %s %s", getResources().getString(R.string.pressure),
+                weatherData.getMain().getPressure(),"мб"));
+        textViewHumidity.setText(String.format("%s %s %s", getResources().getString(R.string.humidity),
+                weatherData.getMain().getHumidity(),"%"));
 
         Glide.with(getContext()).load(makeImageUrl(weatherData.getWeather().get(0).getIcon()))
                 .into(imageViewWeather);
 
         adapter.setData(data.getWeatherDataList());
 
-    }
-
-    private String makeImageUrl(String weatherIcon) {
-        return "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
     }
 }

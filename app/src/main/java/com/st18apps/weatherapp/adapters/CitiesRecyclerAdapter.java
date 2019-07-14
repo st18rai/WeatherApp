@@ -19,9 +19,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.st18apps.weatherapp.utils.StringUtil.makeImageUrl;
+
 public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAdapter.CitiesHolder> {
     private List<WeatherData> data;
     private ItemClickListener itemClickListener;
+    private boolean currentCity = false;
 
     public CitiesRecyclerAdapter(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
@@ -33,21 +36,25 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
 
     public void setData(List<WeatherData> data) {
         this.data = data;
+        currentCity = false;
         notifyDataSetChanged();
     }
 
     public void addCurrentCity(WeatherData weatherData) {
         data.add(0, weatherData);
+        currentCity = true;
         notifyDataSetChanged();
     }
 
     public void addItem(WeatherData weatherData) {
         data.add(weatherData);
+        currentCity = false;
         notifyDataSetChanged();
     }
 
     public void removeItem(int position) {
         data.remove(position);
+        currentCity = false;
         notifyItemRemoved(position);
     }
 
@@ -68,16 +75,15 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
     @Override
     public void onBindViewHolder(@NonNull final CitiesHolder holder, int position) {
 
-        holder.currentCity.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+        if (currentCity && position == 0)
+            holder.currentCity.setVisibility(View.VISIBLE);
+        else
+            holder.currentCity.setVisibility(View.GONE);
 
         WeatherData weatherData = data.get(position);
 
         holder.city.setText(weatherData.getName());
-//        holder.temperature.setText(String.format("%s °C", weatherData.getMain().getTemp()));
         holder.temperature.setText(String.format("%s °C", weatherData.getTemp()));
-
-//        Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getWeather().get(0).getIcon()))
-//                .into(holder.imageWeather);
 
         Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getIcon()))
                 .into(holder.imageWeather);
@@ -91,10 +97,6 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
 
     public interface ItemClickListener {
         void onItemClick(int position);
-    }
-
-    private String makeImageUrl(String weatherIcon) {
-        return "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
     }
 
     static class CitiesHolder extends RecyclerView.ViewHolder {

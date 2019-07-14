@@ -40,7 +40,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
-public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAdapter.ItemClickListener {
+public class CitiesListFragment extends BaseFragment
+        implements CitiesRecyclerAdapter.ItemClickListener {
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 111;
     private static final String TAG = "wtf";
@@ -92,8 +93,12 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
             for (int i = 0; i < weatherDataList.size(); i++) {
                 citiesId.append(",").append(weatherDataList.get(i).getId());
             }
-            citiesId.deleteCharAt(0);
-            viewModel.getCitiesWeather(citiesId.toString()).observe(this, weatherDataList1 -> adapter.setData(weatherDataList1));
+            if (citiesId.length() > 0) {
+                citiesId.deleteCharAt(0);
+            }
+
+            viewModel.getCitiesWeather(citiesId.toString()).observe(this,
+                    weatherDataList1 -> adapter.setData(weatherDataList1));
 
         });
 
@@ -110,10 +115,12 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
         recyclerViewCities.setAdapter(newsAnimationAdapter);
 
         // Handling swipe to delete
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
                 return false;
             }
 
@@ -122,9 +129,11 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
                 //Remove swiped item from list and notify the RecyclerView
                 final int position = viewHolder.getAdapterPosition();
 
+                viewModel.deleteCity(adapter.getData().get(position));
                 adapter.removeItem(position);
 
-                Snackbar.make(recyclerViewCities, "Город удален!", Snackbar.LENGTH_SHORT)
+                Snackbar.make(recyclerViewCities, getResources().getString(R.string.city_deleted),
+                        Snackbar.LENGTH_SHORT)
                         .show();
             }
 

@@ -46,4 +46,8 @@ public class ViewModel extends AndroidViewModel {
         return repository.getDetailCityWeather();
     }
 
+    public void deleteCity(WeatherData weatherData) {
+        repository.delete(weatherData);
+    }
+
 }

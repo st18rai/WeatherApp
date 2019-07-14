@@ -13,11 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.st18apps.weatherapp.R;
 import com.st18apps.weatherapp.model.WeatherData;
+import com.st18apps.weatherapp.utils.StringUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.st18apps.weatherapp.utils.StringUtil.convertDate;
+import static com.st18apps.weatherapp.utils.StringUtil.makeImageUrl;
 
 public class ForecastRecyclerAdapter extends RecyclerView.Adapter<ForecastRecyclerAdapter.ForecastHolder> {
     private List<WeatherData> data;
@@ -52,7 +56,7 @@ public class ForecastRecyclerAdapter extends RecyclerView.Adapter<ForecastRecycl
 
         holder.temperature.setText(String.format("%s °C", weatherData.getMain().getTemp()));
         holder.weather.setText(weatherData.getWeather().get(0).getDescription());
-        holder.date.setText(weatherData.getDate());
+        holder.date.setText(convertDate(weatherData.getDate()));
 
         Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getWeather().get(0).getIcon()))
                 .into(holder.weatherIcon);
@@ -62,10 +66,6 @@ public class ForecastRecyclerAdapter extends RecyclerView.Adapter<ForecastRecycl
     @Override
     public int getItemCount() {
         return data == null ? 0 : data.size();
-    }
-
-    private String makeImageUrl(String weatherIcon) {
-        return "http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
     }
 
     static class ForecastHolder extends RecyclerView.ViewHolder {
