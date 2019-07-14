@@ -73,9 +73,13 @@ public class CitiesRecyclerAdapter extends RecyclerView.Adapter<CitiesRecyclerAd
         WeatherData weatherData = data.get(position);
 
         holder.city.setText(weatherData.getName());
-        holder.temperature.setText(String.format("%s °C", weatherData.getMain().getTemp()));
+//        holder.temperature.setText(String.format("%s °C", weatherData.getMain().getTemp()));
+        holder.temperature.setText(String.format("%s °C", weatherData.getTemp()));
 
-        Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getWeather().get(0).getIcon()))
+//        Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getWeather().get(0).getIcon()))
+//                .into(holder.imageWeather);
+
+        Glide.with(holder.getContext()).load(makeImageUrl(weatherData.getIcon()))
                 .into(holder.imageWeather);
 
     }

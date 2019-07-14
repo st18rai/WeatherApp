@@ -30,4 +30,16 @@ public class Main {
     public double getTempMax() {
         return tempMax;
     }
+
+    public void setTemp(double temp) {
+        this.temp = temp;
+    }
+
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
+    }
+
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
+    }
 }

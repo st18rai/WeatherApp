@@ -22,14 +22,18 @@ public class ViewModel extends AndroidViewModel {
         repository = new Repository(application);
     }
 
+    public LiveData<List<WeatherData>> getSavedWeatherData(){
+        return repository.getSavedWeatherData();
+    }
+
     public LiveData<WeatherData> getCityWeather(String city) {
         repository.loadCityWeather(city);
         return repository.getCityWeather();
     }
 
-    public LiveData<WeatherData> getCityWeather(double lat, double lon) {
-        repository.loadCityWeather(lat, lon);
-        return repository.getCityWeather();
+    public LiveData<WeatherData> getCurrentCityWeather(double lat, double lon) {
+        repository.loadCurrentCityWeather(lat, lon);
+        return repository.getCurrentCityWeather();
     }
 
     public LiveData<List<WeatherData>> getCitiesWeather(String ids) {

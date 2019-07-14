@@ -79,16 +79,23 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
         super.onViewCreated(view, savedInstanceState);
 
         if (!checkPermissions()) {
-            Log.i(TAG, "Inside onStart function; requesting permission when permission is not available");
             requestPermissions();
         } else {
-            Log.i(TAG, "Inside onStart function; getting location when permission is already available");
             getLastLocation();
-
         }
 
-        viewModel.getCitiesWeather("709930,703448,702550").observe(this, weatherData ->
-                adapter.setData(weatherData));
+        viewModel.getSavedWeatherData().observe(this, weatherDataList -> {
+            adapter.setData(weatherDataList);
+
+            StringBuilder citiesId = new StringBuilder();
+
+            for (int i = 0; i < weatherDataList.size(); i++) {
+                citiesId.append(",").append(weatherDataList.get(i).getId());
+            }
+            citiesId.deleteCharAt(0);
+            viewModel.getCitiesWeather(citiesId.toString()).observe(this, weatherDataList1 -> adapter.setData(weatherDataList1));
+
+        });
 
     }
 
@@ -245,7 +252,7 @@ public class CitiesListFragment extends BaseFragment implements CitiesRecyclerAd
     }
 
     private void getCurrentCity(Location location) {
-        viewModel.getCityWeather(location.getLatitude(),
+        viewModel.getCurrentCityWeather(location.getLatitude(),
                 location.getLongitude()).observe(CitiesListFragment.this, weatherData -> {
 
             if (weatherData != null && !isCityAlreadyExist(weatherData, adapter.getData()))
