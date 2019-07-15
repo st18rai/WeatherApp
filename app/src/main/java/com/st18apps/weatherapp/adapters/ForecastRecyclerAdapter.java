@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.st18apps.weatherapp.R;
 import com.st18apps.weatherapp.model.WeatherData;
-import com.st18apps.weatherapp.utils.StringUtil;
 
 import java.util.List;
 

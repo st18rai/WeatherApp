@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/imageView_weather"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="@dimen/big_weather_image_size"
+        android:layout_height="@dimen/big_weather_image_size"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

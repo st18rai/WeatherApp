@@ -25,7 +25,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView_temperature"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="City" />
 
@@ -55,8 +54,8 @@
         <TextView
             android:id="@+id/textView_your_city"
             android:layout_width="0dp"
-            android:layout_margin="@dimen/default_margin"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
             android:text="@string/your_city"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/textView_name"
